@@ -114,3 +114,34 @@ with st.container():
     fig.update_layout(hovermode="x unified")
 
     st.plotly_chart(fig, use_container_width=True)
+
+st.markdown("### 🗺️ Border Crossing Map")
+
+# Group by location to get total crossings per port
+map_df = (
+    filtered_df.groupby(["Port Name", "Latitude", "Longitude"], as_index=False)["Value"]
+    .sum()
+    .sort_values(by="Value", ascending=False)
+)
+
+# Only keep rows with valid lat/lon
+map_df = map_df.dropna(subset=["Latitude", "Longitude"])
+
+# Plotly map
+fig = px.scatter_mapbox(
+    map_df,
+    lat="Latitude",
+    lon="Longitude",
+    size="Value",
+    hover_name="Port Name",
+    hover_data={"Value": True, "Latitude": False, "Longitude": False},
+    color="Value",
+    color_continuous_scale="Blues",
+    size_max=20,
+    zoom=3,
+    height=600,
+)
+
+fig.update_layout(mapbox_style="carto-positron", margin={"r":0,"t":0,"l":0,"b":0})
+st.plotly_chart(fig, use_container_width=True)
+
