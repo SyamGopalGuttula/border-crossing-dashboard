@@ -58,7 +58,7 @@ with col2:
         hover_name="Port Name",
         color="Value",
         color_continuous_scale="Blues",
-        zoom=2.5,
+        zoom=2.25,
         height=400
     )
     fig_map.update_layout(mapbox_style="carto-positron", margin={"r":0,"t":0,"l":0,"b":0})
@@ -82,17 +82,20 @@ with col3:
     top_ports_df = (
         filtered_df.groupby("Port Name", as_index=False)["Value"]
         .sum()
-        .sort_values(by="Value", ascending=False)
+        .sort_values(by="Value")
         .head(10)
     )
+
     fig_bar = px.bar(
         top_ports_df,
-        x="Port Name",
-        y="Value",
+        x="Value",
+        y="Port Name",
+        orientation='h',
         color="Value",
         color_continuous_scale="Blues",
         labels={"Value": "Total Crossings", "Port Name": "Port"},
     )
+
     st.plotly_chart(fig_bar, use_container_width=True)
 
     st.markdown("### ℹ️ About")
