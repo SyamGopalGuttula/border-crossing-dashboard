@@ -40,10 +40,17 @@ col1, col2, col3 = st.columns([1.5, 5, 2])
 # --- Column 1: KPIs ---
 with col1:
     st.markdown("### 🚦 Metrics")
-    st.metric("Total Crossings", f"{filtered_df['Value'].sum():,.0f}")
-    st.metric("Unique Ports", filtered_df['Port Name'].nunique())
-    st.metric("States Covered", filtered_df['State'].nunique())
-    st.metric("Top Measure", filtered_df['Measure'].value_counts().idxmax())
+    st.markdown("**Total Crossings**")
+    st.markdown(f"### {filtered_df['Value'].sum():,.0f}")
+
+    st.markdown("**Unique Ports**")
+    st.markdown(f"### {filtered_df['Port Name'].nunique()}")
+
+    st.markdown("**States Covered**")
+    st.markdown(f"### {filtered_df['State'].nunique()}")
+
+    st.markdown("**Top Measure**")
+    st.markdown(f"### {filtered_df['Measure'].value_counts().idxmax()}")
 
 # --- Column 2: Line Chart + Map ---
 with col2:
