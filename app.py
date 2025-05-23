@@ -35,28 +35,15 @@ if selected_measure != "All":
     filtered_df = filtered_df[filtered_df["Measure"] == selected_measure]
 
 # --- Layout: Three Columns ---
-col1, col2, col3 = st.columns([1.5, 4.5, 2])
+col1, col2, col3 = st.columns([1.5, 5, 2])
 
 # --- Column 1: KPIs ---
 with col1:
     st.markdown("### 🚦 Metrics")
-
-    def small_metric(label, value):
-        st.markdown(
-            f"""
-            <div style='margin-bottom: 1rem'>
-                <span style='font-size: 14px; color: #999;'>{label}</span><br>
-                <span style='font-size: 20px; font-weight: 600; color: #fff;'>{value}</span>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-    small_metric("Total Crossings", f"{filtered_df['Value'].sum():,.0f}")
-    small_metric("Unique Ports", filtered_df['Port Name'].nunique())
-    small_metric("States Covered", filtered_df['State'].nunique())
-    small_metric("Top Measure", filtered_df['Measure'].value_counts().idxmax())
-
+    st.metric("Total Crossings", f"{filtered_df['Value'].sum():,.0f}")
+    st.metric("Unique Ports", filtered_df['Port Name'].nunique())
+    st.metric("States Covered", filtered_df['State'].nunique())
+    st.metric("Top Measure", filtered_df['Measure'].value_counts().idxmax())
 
 # --- Column 2: Line Chart + Map ---
 with col2:
@@ -71,8 +58,8 @@ with col2:
         hover_name="Port Name",
         color="Value",
         color_continuous_scale="Blues",
-        zoom=3,
-        height=600
+        zoom=2.5,
+        height=400
     )
     fig_map.update_layout(mapbox_style="carto-positron", margin={"r":0,"t":0,"l":0,"b":0})
     st.plotly_chart(fig_map, use_container_width=True)
@@ -106,7 +93,6 @@ with col3:
         color_continuous_scale="Blues",
         labels={"Value": "Total Crossings", "Port Name": "Port"},
     )
-    fig_bar.update_layout(xaxis_tickangle=-45, coloraxis_showscale=False)
     st.plotly_chart(fig_bar, use_container_width=True)
 
     st.markdown("### ℹ️ About")
