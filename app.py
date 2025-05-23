@@ -18,20 +18,14 @@ with st.spinner("Loading data..."):
 
 st.success(f"Loaded {len(df):,} records.")
 
-# --- Filters ---
-st.markdown("### 🎛️ Filters")
+# --- Sidebar Filters ---
+st.sidebar.header("🎛️ Filter Options")
 
-with st.container():
-    col1, col2, col3 = st.columns(3)
+with st.sidebar.expander("Select Filters", expanded=True):
+    selected_border = st.sidebar.radio("Border", ["All"] + sorted(df["Border"].unique()))
+    selected_state = st.sidebar.radio("State", ["All"] + sorted(df["State"].unique()))
+    selected_measure = st.sidebar.radio("Measure", ["All"] + sorted(df["Measure"].unique()))
 
-    with col1:
-        selected_border = st.selectbox("Select Border", options=["All"] + sorted(df["Border"].unique().tolist()))
-
-    with col2:
-        selected_state = st.selectbox("Select State", options=["All"] + sorted(df["State"].unique().tolist()))
-
-    with col3:
-        selected_measure = st.selectbox("Select Measure", options=["All"] + sorted(df["Measure"].unique().tolist()))
 
 # --- Apply filters to dataframe ---
 filtered_df = df.copy()
@@ -128,7 +122,7 @@ map_df = (
 map_df = map_df.dropna(subset=["Latitude", "Longitude"])
 
 # Plotly map
-fig = px.scatter_mapbox(
+fig = px.scatter_map(
     map_df,
     lat="Latitude",
     lon="Longitude",
