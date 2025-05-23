@@ -50,7 +50,7 @@ Create a virtual environment and install dependencies:
 
 ```bash
 python -m venv venv
-.env\Scriptsctivate
+.venv\Scripts\Activate
 pip install -r requirements.txt
 ```
 
