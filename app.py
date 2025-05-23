@@ -16,7 +16,7 @@ def load_data():
 with st.spinner("Loading data..."):
     df = load_data()
 
-st.success(f"Loaded {len(df):,} records.")
+#st.success(f"Loaded {len(df):,} records.")
 
 # --- Sidebar Filters ---
 st.sidebar.header("🎛️ Filter Options")
@@ -57,7 +57,7 @@ with col2:
     st.markdown("### 🗺️ Crossing Locations Map")
     map_df = filtered_df.groupby(["Port Name", "Latitude", "Longitude"], as_index=False)["Value"].sum()
     map_df = map_df.dropna(subset=["Latitude", "Longitude"])
-    fig_map = px.scatter_map(
+    fig_map = px.scatter_mapbox(
         map_df,
         lat="Latitude",
         lon="Longitude",
@@ -68,7 +68,7 @@ with col2:
         zoom=2.5,
         height=350
     )
-    fig_map.update_layout(mapbox_style="carto-positron", margin={"r":0,"t":0,"l":0,"b":0})
+    fig_map.update_layout(mapbox_style="open-street-map", margin={"r":0,"t":0,"l":0,"b":0})
     st.plotly_chart(fig_map, use_container_width=True)
 
     # Add spacing
