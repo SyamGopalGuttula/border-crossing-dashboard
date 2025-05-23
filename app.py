@@ -70,6 +70,10 @@ with col2:
     )
     fig_map.update_layout(mapbox_style="carto-positron", margin={"r":0,"t":0,"l":0,"b":0})
     st.plotly_chart(fig_map, use_container_width=True)
+
+    # Add spacing
+    st.markdown("<br>", unsafe_allow_html=True)
+
     st.markdown("### 📈 Monthly Trend")
     monthly = filtered_df.groupby(pd.Grouper(key="Date", freq="M"))["Value"].sum().reset_index()
     fig_line = px.line(
@@ -89,9 +93,11 @@ with col3:
     top_ports_df = (
         filtered_df.groupby("Port Name", as_index=False)["Value"]
         .sum()
-        .sort_values(by="Value")
+        .sort_values(by="Value", ascending=False)
         .head(10)
-    )
+    )   
+    
+    top_ports_df = top_ports_df.sort_values(by="Value")
 
     fig_bar = px.bar(
         top_ports_df,
