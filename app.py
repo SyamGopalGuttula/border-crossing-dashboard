@@ -26,7 +26,6 @@ with st.sidebar.expander("Select Filters", expanded=True):
     selected_state = st.sidebar.radio("State", ["All"] + sorted(df["State"].unique()))
     selected_measure = st.sidebar.radio("Measure", ["All"] + sorted(df["Measure"].unique()))
 
-
 # --- Apply filters to dataframe ---
 filtered_df = df.copy()
 
@@ -78,11 +77,14 @@ with st.container():
         x="Value",
         y="Port Name",
         orientation='h',
-        color="Port Name",
-        color_discrete_sequence=px.colors.qualitative.Safe,
+        color="Value",  # Use Value to create intensity
+        color_continuous_scale="Blues",  # or "Viridis", "Cividis", etc.
         labels={"Value": "Total Crossings", "Port Name": "Port"},
     )
+
+    fig.update_layout(coloraxis_showscale=False)  # optional: hide the color scale legend
     st.plotly_chart(fig, use_container_width=True)
+
 
 st.markdown("<br><br>", unsafe_allow_html=True)
 
