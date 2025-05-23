@@ -20,7 +20,7 @@ st.success(f"Loaded {len(df):,} records.")
 
 # --- Sidebar Filters ---
 st.sidebar.header("🎛️ Filter Options")
-with st.sidebar.expander("Select Filters", expanded=True):
+with st.sidebar.expander("Select Filters", expanded=False):
     selected_border = st.sidebar.radio("Border", ["All"] + sorted(df["Border"].unique()))
     selected_state = st.sidebar.radio("State", ["All"] + sorted(df["State"].unique()))
     selected_measure = st.sidebar.radio("Measure", ["All"] + sorted(df["Measure"].unique()))
@@ -35,7 +35,7 @@ if selected_measure != "All":
     filtered_df = filtered_df[filtered_df["Measure"] == selected_measure]
 
 # --- Layout: Three Columns ---
-col1, col2, col3 = st.columns([1.5, 5, 2])
+col1, col2, col3 = st.columns([2, 8, 3.5])
 
 # --- Column 1: KPIs ---
 with col1:
@@ -65,8 +65,8 @@ with col2:
         hover_name="Port Name",
         color="Value",
         color_continuous_scale="Blues",
-        zoom=2.25,
-        height=400
+        zoom=2.5,
+        height=350
     )
     fig_map.update_layout(mapbox_style="carto-positron", margin={"r":0,"t":0,"l":0,"b":0})
     st.plotly_chart(fig_map, use_container_width=True)
