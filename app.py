@@ -20,7 +20,7 @@ with st.spinner("Loading data..."):
 #st.success(f"Loaded {len(df):,} records.")
 
 # --- Sidebar Filters ---
-st.sidebar.header("🎛️ Filter Options")
+st.sidebar.header("Filter Options")
 with st.sidebar.expander("Select Filters", expanded=False):
     selected_border = st.sidebar.selectbox("Border", ["All"] + sorted(df["Border"].unique()))
     selected_state = st.sidebar.selectbox("State", ["All"] + sorted(df["State"].unique()))
@@ -35,6 +35,9 @@ if selected_state != "All":
 if selected_measure != "All":
     filtered_df = filtered_df[filtered_df["Measure"] == selected_measure]
 
+if filtered_df.empty:
+    st.warning("No data available for the selected filters. Try changing your selection.")
+    st.stop()
 
 # LAYOUT
 col1, col2 = st.columns([2, 8])  # Left = metrics/info | Right = charts
